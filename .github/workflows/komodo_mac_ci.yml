@@ -10,7 +10,7 @@ jobs:
 
   macos-build:
     name: MacOS Build
-    runs-on: macos-11
+    runs-on: macos-12
     
     steps:
       - uses: actions/checkout@v3
@@ -33,14 +33,21 @@ jobs:
         run: |
           # flag for some CC tests transactions - so DO NOT USE THIS CI ARTIFACTS IN PRODUCTION!!!
           export CPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
-          ./zcutil/build-mac-dtest.sh -j4
-          tar -czvf komodo-macos.tar.gz src/komodod src/komodo-cli
+          ./zcutil/build-mac-dtest.sh -j4 && tar -czvf komodo-macos.tar.gz src/komodod src/komodo-cli || echo "Failed, uploading config.log"
+
+      - name: Upload config.log
+        uses: actions/upload-artifact@v3
+        with:
+          name: config_log
+          path: ./config.log
+          retention-days: 7
 
       - name: Upload komodo-macos.tar.gz as artifact
         uses: actions/upload-artifact@v3
         with:
           name: komodo-macos
           path: ./komodo-macos.tar.gz
+
 
   macos-test-dice-token-reards-faucet-cc:
 
