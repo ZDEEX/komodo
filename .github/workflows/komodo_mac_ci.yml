@@ -10,7 +10,7 @@ jobs:
 
   macos-build:
     name: MacOS Build
-    runs-on: macos-latest
+    runs-on: macos-11
     
     steps:
       - uses: actions/checkout@v3
@@ -64,7 +64,6 @@ jobs:
 
       - name: Test CC (MacOS)
         run: |
-          mv komodo-macos/komodo-macos.tar.gz .
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
           ./zcutil/fetch-params.sh
@@ -93,7 +92,6 @@ jobs:
 
       - name: Oracles Test (macos)
         run: |
-          mv komodo-macos/komodo-macos.tar.gz .
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
           ./zcutil/fetch-params.sh
@@ -122,7 +120,6 @@ jobs:
 
       - name: BasicRPC Test (macos)
         run: |
-          mv komodo-macos/komodo-macos.tar.gz .
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
           ./zcutil/fetch-params.sh
@@ -151,7 +148,6 @@ jobs:
 
       - name: Channels Test (macos)
         run: |
-          mv komodo-macos/komodo-macos.tar.gz .
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
           ./zcutil/fetch-params.sh
@@ -180,7 +176,6 @@ jobs:
 
       - name: Heir Test (macos)
         run: |
-          mv komodo-macos/komodo-macos.tar.gz .
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
           ./zcutil/fetch-params.sh
