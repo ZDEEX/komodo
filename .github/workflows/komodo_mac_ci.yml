@@ -78,6 +78,11 @@ jobs:
         run: |
           mkdir -p src
           tar xzvf komodo-macos.tar.gz
+          ls -al
+          ls -al src || echo
+          chmod +x src/komodod || echo
+          chmod +x src/komodo-cli || echo
+          ls -al src || echo
           ./zcutil/fetch-params.sh
           cd qa/pytest_komodo
           ./ci_setup.sh "cc_modules/test_dice.py cc_modules/test_faucet.py cc_modules/test_token.py cc_modules/test_rewards.py"
