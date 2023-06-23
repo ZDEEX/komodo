@@ -1549,7 +1549,6 @@ void komodo_args(char *argv0)
     if ( !chainName.isKMD() )
     {
         BITCOIND_RPCPORT = GetArg("-rpcport", ASSETCHAINS_RPCPORT);
-        IS_KOMODO_TESTNODE = GetArg("-testnode",0);
         //fprintf(stderr,"(%s) port.%u chain params initialized\n",chainName.symbol().c_str(),BITCOIND_RPCPORT);
         if ( chainName.isSymbol("PIRATE") && ASSETCHAINS_HALVING[0] == 77777 )
         {
@@ -1563,7 +1562,6 @@ void komodo_args(char *argv0)
             fprintf(stderr,"-ac_private for a non-PIRATE chain is not supported. The only reason to have an -ac_private chain is for total privacy and that is best achieved with the largest anon set. PIRATE has that and it is recommended to just use PIRATE\n");
             StartShutdown();
         }
-
         // Set cc enables for all existing ac_cc chains here. 
         if ( chainName.isSymbol("AXO") )
         {
