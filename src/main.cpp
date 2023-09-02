@@ -6019,10 +6019,11 @@ CBlockIndex * InsertBlockIndex(uint256 hash)
 bool static LoadBlockIndexDB()
 {
     const CChainParams& chainparams = Params();
+    int nHighest = 1;
     LogPrintf("%s: start loading guts\n", __func__);
     {
         LOCK(cs_main);
-        if (!pblocktree->LoadBlockIndexGuts())
+        if (!pblocktree->LoadBlockIndexGuts(nHighest))
             return false;
     }
     LogPrintf("%s: loaded guts\n", __func__);
@@ -6037,10 +6038,18 @@ bool static LoadBlockIndexDB()
         vSortedByHeight.push_back(make_pair(pindex->nHeight, pindex));
     }
     sort(vSortedByHeight.begin(), vSortedByHeight.end());
-
+    int nHeight = 0;
+    int nLastPercent = -1;
     for(const auto& item : vSortedByHeight)
     {
+        int nPercent = 100 * nHeight / nHighest;
+        if (nPercent > nLastPercent && nPercent % 10 == 0) {
+            LogPrintf("Indexing blocks... %d%%\n", (100 * nHeight) / nHighest);
+            nLastPercent = nPercent;
+        }
         CBlockIndex* pindex = item.second;
+        nHeight = pindex-> nHeight;
+
         pindex->nChainWork = (pindex->pprev ? pindex->pprev->nChainWork : 0) + GetBlockProof(*pindex);
         // We can link the chain of blocks for which we've received transactions at some point.
         // Pruned nodes may have deleted the block.

@@ -279,7 +279,7 @@ public:
      * NOTE: this does no consistency check beyond verifying records exist
      * @returns true on success
      */
-    bool LoadBlockIndexGuts();
+    bool LoadBlockIndexGuts(int& nHighest);
     /****
      * Check if a block is on the active chain
      * @param hash the block hash

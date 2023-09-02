@@ -707,14 +707,23 @@ bool CBlockTreeDB::blockOnchainActive(const uint256 &hash) {
     return true;
 }
 
-bool CBlockTreeDB::LoadBlockIndexGuts()
+bool CBlockTreeDB::LoadBlockIndexGuts(int& nHighest)
 {
     boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 
     pcursor->Seek(make_pair(DB_BLOCK_INDEX, uint256()));
 
+    int nCount = 0;
+    int nLastPercent = -1;
+
     // Load mapBlockIndex
     while (pcursor->Valid()) {
+        int nPercent = 100 * nCount / nHighest;
+        if (nPercent > nLastPercent && nPercent % 10 == 0) {
+            LogPrintf("Loading blocks... %d%%\n", (100 * nCount) / nHighest);
+            nLastPercent = nPercent;
+        }
+        nCount++;
         boost::this_thread::interruption_point();
         std::pair<char, uint256> key;
         if (pcursor->GetKey(key) && key.first == DB_BLOCK_INDEX) {
@@ -723,7 +732,9 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                 // Construct block index object
                 CBlockIndex* pindexNew = InsertBlockIndex(diskindex.GetBlockHash());
                 pindexNew->pprev          = InsertBlockIndex(diskindex.hashPrev);
-                pindexNew->nHeight = diskindex.nHeight;
+                pindexNew->nHeight        = diskindex.nHeight;
+                if (diskindex.nHeight > nHighest)
+                    nHighest = diskindex.nHeight;
                 pindexNew->nFile          = diskindex.nFile;
                 pindexNew->nDataPos       = diskindex.nDataPos;
                 pindexNew->nUndoPos       = diskindex.nUndoPos;
