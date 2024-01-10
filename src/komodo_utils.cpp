@@ -1558,11 +1558,11 @@ void komodo_args(char *argv0)
             ASSETCHAINS_HALVING[0] *= 5;
             fprintf(stderr,"PIRATE halving changed to %d %.1f days ASSETCHAINS_LASTERA.%llu\n",(int32_t)ASSETCHAINS_HALVING[0],(double)ASSETCHAINS_HALVING[0]/1440,(long long)ASSETCHAINS_LASTERA);
         }
-        else if ( chainName.isSymbol("ZOMBIE") and IS_KOMODO_TESTNODE )
-            fprintf(stderr, "TEST COIN, DO NOT BUY\n");
+        else if ( chainName.isSymbol("ZDEEX") and IS_KOMODO_TESTNODE )
+            fprintf(stderr, "ZDEEX COIN, BUY\n");
         else if ( ASSETCHAINS_PRIVATE != 0 )
         {
-            fprintf(stderr,"-ac_private for a non-PIRATE chain is not supported. The only reason to have an -ac_private chain is for total privacy and that is best achieved with the largest anon set. PIRATE has that and it is recommended to just use PIRATE\n");
+            fprintf(stderr,"-ac_private for a non-ZDEEX chain is not supported. The only reason to have an -ac_private chain is for total privacy and that is best achieved with the largest anon set. ZDEEX has that and it is recommended to just use ZDEEX\n");
             StartShutdown();
         }
         // Set cc enables for all existing ac_cc chains here. 
