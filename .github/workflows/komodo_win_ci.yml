@@ -67,7 +67,7 @@ jobs:
         ./zcutil/build-win-dtest.sh -j$(nproc)
         zip --junk-paths komodod_win src/komodod.exe src/komodo-cli.exe
     - name: Upload komodod.exe as artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: komodod_win
         path: ./komodod_win.zip
